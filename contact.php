@@ -1,3 +1,9 @@
+<?php
+session_start();
+
+// Check if the user is logged in
+$loggedIn = isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
+?>
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
@@ -15,7 +21,10 @@
         <nav>
             <ul class="nav">
                 <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+                <?php if ($loggedIn): ?>
+                    <li class="nav-item"><a class="nav-link" href="logout.html">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="shipping.html">Shipping</a></li>
+                    <li class="nav-item"><a class="nav-link" href="create.html">Create</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Products</a>
                     <ul class="dropdown-menu" aria-labelledby="productsDropdown">

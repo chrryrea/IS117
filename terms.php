@@ -1,8 +1,14 @@
+<?php
+session_start();
+
+// Check if the user is logged in
+$loggedIn = isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
+?>
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Placeholder - Products</title>
+    <title>Placeholder - Terms of Service</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="styles/styles.css">
 </head>
@@ -15,7 +21,10 @@
         <nav>
             <ul class="nav">
                 <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+                <?php if ($loggedIn): ?>
+                    <li class="nav-item"><a class="nav-link" href="logout.html">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="shipping.html">Shipping</a></li>
+                    <li class="nav-item"><a class="nav-link" href="create.html">Create</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Products</a>
                     <ul class="dropdown-menu" aria-labelledby="productsDropdown">
@@ -29,7 +38,7 @@
         </nav>
     </header>
     <main>
-        <h2>Placeholder</h2>
+        <h2>Terms of Service</h2>
     </main>
     <footer>
         <p>&copy; 2024 Ian Espinal</p>

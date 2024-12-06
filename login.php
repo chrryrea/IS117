@@ -1,3 +1,49 @@
+<?php
+session_start();
+include_once 'db_config.php';
+
+// Database connection
+$dsn = 'mysql:host=sql1.njit.edu;port=3306;dbname=ie48';
+$username = 'ie48';
+$password = 'cZ_263161_Cz';
+
+try {
+    $db = new PDO($dsn, $username, $password);
+    // Set the PDO error mode to exception
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+} catch(PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+}
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve the form data
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+
+    $query = 'SELECT * FROM `IS117 TEMP Manager List` WHERE EmailAddress = :email';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':email', $email);
+    $statement->execute();
+
+    // Fetch the manager record
+    $manager = $statement->fetch(PDO::FETCH_ASSOC);
+    // Verify the password
+        if ($manager && password_verify($password, $manager['password'])) {
+        $_SESSION['loggedin'] = true;
+        $_SESSION['FirstName'] = $manager['FirstName'];
+        $_SESSION['LastName'] = $manager['LastName'];
+        $_SESSION['email'] = $manager['emailAddress'];
+
+        header('Location: index.php');
+        exit;
+    } else {
+        $error = "Invalid email or password.";
+    }
+}
+// Check if the user is logged in
+$loggedIn = isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
+?>
 <!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
